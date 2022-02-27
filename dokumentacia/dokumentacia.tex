@@ -1,0 +1,85 @@
+\documentclass[12pt, oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{ulem}
+\usepackage[slovak]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=black,
+}
+
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+\begin{minipage}{0.75\linewidth}
+\centering
+\uppercase{Slovenská Technická univerzita v Bratislave}
+Fakulta informatiky a informačných technológií\\
+Ilkovičova 2, 842 16 Bratislava 4\\
+\vspace{7cm}
+{\Large \textbf{Zadanie 1 - SIP Proxy} \par}
+\vspace{7cm}
+\begin{flushright}
+{\Large Martin Nemec \\ FIIT STU \\ MTAA\\ Cvičenie: Štvrtok 8:00\\}
+\end{flushright}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\section{Implementácia}
+Ako prostredie som si vybral python, kde som celé zadanie realizoval. 
+Implementáciu proxy som čerpal z github repozitára: \textbf{\href{https://github.com/tirfil/PySipFullProxy}{PySipFullProxy}} 
+\newline
+Kód v repozitáry bolo potrebné opraviť, keďže bol písaný v staršej verzii Pythonu.
+Po opravení množstva chýb som vytvoril vlastnú main funkciu, z ktorej som program spúšťal. Po sprevádzkovaní proxy serveru som bol schopný vykonať hovor. Ako SIP client som využíval Linphone na PC a tak isto aj na mobilnom telefóne.
+\section{Knižnice}
+Zoznam používaných knižníc:
+\begin{itemize}
+  \item socketserver
+  \item re
+  \item time
+  \item logging
+  \item socket
+  \item sys
+\end{itemize}
+
+\section{Funkcionalita}
+Z časti povinných bodov funkcionality je všetko funkčné a zaznamenané v pcap súboroch na mojom github repozitáry.
+\newline
+Z doplnkových funkcionalít sa mi podarilo implementovať tieto:
+\begin{itemize}
+  \item zrealizovanie konferenčného hovoru
+  \item presmerovanie hovoru
+  \item realizovanie videohovoru
+  \item úprava SIP stavových kódov v zdrojovom kóde, kde som upravoval z angličtiny do slovenčiny
+\end{itemize}
+Tieto body su taktiež zaznamenané v pcap súboroch.
+
+\section{Opis funkčnosti hovoru}
+\subsection{Registrácia}
+Pri registrácii sa pošle request REGISTER s IP adresou. Po úspešnej registrácii sa pošle 200 Pozitívne.
+\subsection{Vytáčanie}
+Po registrácii učastníka je možnosť zavolať na iné zariadenie. Po zavolaní následuje INVITE na daného uživateľa.
+Následuje 100 Trying frame, kde sa pokúša spojiť, následne Ringing frame, kde začína zvoniť na druhom zariadení.
+\subsection{Hovor}
+Ak druhý účastník zdvihne hovor príde pozitívne ACK a taktiež príde frame s IP ďalšieho účastníka.
+\subsection{Ukončenie hovoru}
+Pri zrušení hovoru jednou stranou sa pošle BYE frame na adresu ďalšieho zariadenia na oznámenie ukončenia hovoru. 200 Ok pošle druhá strana naspäť a hovor skončil.
+
+\section{Github}
+\textbf{\href{https://github.com/nemo260/sip-mtaa}{Odkaz na môj github repozitár} }
+
+\end{document}
+
